@@ -36,7 +36,7 @@ RSpec.describe Task, type: :model do
     end
 
     it 'should return if deadline has not passed' do
-      task = Task.create(deadline: 1.day.ago)
+      task = Task.create(deadline: 1.day.from_now)
       expect(task.overdue?).to eq(false)
     end
   end 
@@ -69,15 +69,12 @@ RSpec.describe Task, type: :model do
     end
   end
 
-  # describe '#snooze_hour' do
-  #   it 'should snooze by an hour' do
-  #     task = Task.create(deadline: Time.now + 30.minutes)
-  #     task.deadline 
-  #     expect(deadline: 2018-10-23 20:59:31)
-  #   end
-
-  #   it 'should snooze by ' do
-  #     task = Task.create()
-  #   end
-  # end
+  describe '#snooze_hour!' do
+    it 'should push deadline back by one hour' do
+      time = Time.now
+      task = Task.create(deadline: time)
+      task.snooze_hour!
+      expect(task.deadline).to eq(time + 1.hour)
+    end
+  end
 end
